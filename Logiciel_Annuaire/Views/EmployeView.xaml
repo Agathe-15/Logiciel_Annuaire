@@ -1,7 +1,7 @@
 ﻿<Window x:Class="AnnuaireWPF.Views.EmployeView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Liste des Employés" Height="200" Width="300">
+        Title="Liste des Employés" Height="300" Width="300">
     <Grid Margin="10">
         <StackPanel>
             <TextBlock Text="Détails de l'employé" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
@@ -10,7 +10,9 @@
             <TextBlock Text="{Binding Poste}" />
             <TextBlock Text="{Binding Telephone}" />
             <TextBlock Text="{Binding Email}" />
-            <Button Content="Fermer" Click="CloseWindow" Width="100" Height="30" Margin="0,10,0,0"/>
+            <TextBlock Text="{Binding Site}" />
+            <TextBlock Text="{Binding Ville}" />
+            <Button Content="Fermer" Click="CloseWindow" Width="100" Height="30" Margin="0,60,0,0"/>
         </StackPanel>
     </Grid>
 </Window>

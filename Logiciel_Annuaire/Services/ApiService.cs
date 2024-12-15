@@ -12,7 +12,7 @@ namespace AnnuaireWPF.Services
         public ApiService()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("http://localhost:3000/"); // URL de votre API
+            _httpClient.BaseAddress = new Uri("http://localhost:3000/api/"); // URL de votre API
         }
 
         // GET : Récupérer toutes les données
@@ -52,5 +52,7 @@ namespace AnnuaireWPF.Services
             var response = await _httpClient.DeleteAsync(endpoint);
             response.EnsureSuccessStatusCode();
         }
+
+
     }
 }

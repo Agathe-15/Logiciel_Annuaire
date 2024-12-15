@@ -11,5 +11,7 @@
         public int SiteId { get; set; }
         public int ServiceId { get; set; }
         public DateTime DateEmbauche { get; set; }
+        public string Site { get; set; }
+        public string Ville { get; set; }
     }
 }
