@@ -54,7 +54,9 @@ namespace Logiciel_Annuaire
 
                     if (response.IsSuccessStatusCode)
                     {
-                        return await response.Content.ReadAsStringAsync();
+                        string result = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine($"Mot de passe récupéré depuis l'API : '{result}'"); // Log ici
+                        return result.Trim(); // Trim pour enlever espaces ou retours à la ligne
                     }
                     else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                     {
@@ -73,12 +75,17 @@ namespace Logiciel_Annuaire
         }
 
 
+
         // Vérifier le mot de passe saisi avec le mot de passe haché
         private bool VerifyPassword(string inputPassword, string storedHashedPassword)
         {
             string hashedInput = ComputeHash(inputPassword); // Hacher le mot de passe saisi
-            return hashedInput == storedHashedPassword;      // Comparer les deux hachages
+            Console.WriteLine($"Hachage saisi : '{hashedInput}'");
+            Console.WriteLine($"Hachage stocké : '{storedHashedPassword}'");
+
+            return hashedInput == storedHashedPassword; // Comparer les deux hachages
         }
+
 
         // Générer un hachage SHA-256
         private string ComputeHash(string password)
@@ -89,10 +96,11 @@ namespace Logiciel_Annuaire
                 StringBuilder builder = new StringBuilder();
                 foreach (var b in bytes)
                 {
-                    builder.Append(b.ToString("x2")); // Convertir chaque byte en hexadécimal
+                    builder.Append(b.ToString("x2")); // Convertir en hexadécimal
                 }
                 return builder.ToString();
             }
         }
+
     }
 }
