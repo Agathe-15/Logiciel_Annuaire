@@ -74,18 +74,20 @@ namespace Logiciel_Annuaire
                 var sites = await _apiService.GetAsync<ObservableCollection<Site>>("sites");
 
                 // Associer le nom et la ville du site à chaque employé
+                // Associer le site complet à chaque employé
                 foreach (var employe in employes)
                 {
                     var site = sites.FirstOrDefault(s => s.SiteId == employe.SiteId);
                     if (site != null)
                     {
-                        employe.Site = site.Nom;
-                        employe.Ville = site.Ville;
+                        employe.Site = site; // Assigner l'objet complet
                     }
 
                     _employes.Add(employe);
                     _filteredEmployes.Add(employe);
                 }
+
+
             }
             catch (Exception ex)
             {
@@ -108,11 +110,11 @@ namespace Logiciel_Annuaire
 
             // Filtrer les employés par plusieurs critères
             var results = _employes.Where(emp =>
-                emp.Nom.ToLower().Contains(searchText) ||                // Rechercher par nom
-                emp.Prenom.ToLower().Contains(searchText) ||             // Rechercher par prénom
-                (emp.Site?.ToLower().Contains(searchText) ?? false) ||   // Rechercher par site
-                (emp.Ville?.ToLower().Contains(searchText) ?? false) ||  // Rechercher par ville
-                emp.Poste.ToLower().Contains(searchText));               // Rechercher par poste
+                emp.Nom.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||               // Rechercher par nom
+                emp.Prenom.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||            // Rechercher par prénom
+                (emp.Site?.Nom.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false) ||  // Rechercher par nom de site
+                (emp.Site?.Ville.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false) || // Rechercher par ville du site
+                emp.Poste.Contains(searchText, StringComparison.OrdinalIgnoreCase));              // Rechercher par poste
 
             // Mettre à jour la liste filtrée
             _filteredEmployes.Clear();

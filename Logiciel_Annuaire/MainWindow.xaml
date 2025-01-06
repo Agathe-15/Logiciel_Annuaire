@@ -69,10 +69,11 @@
                     <GridViewColumn Header="Nom" DisplayMemberBinding="{Binding Nom}" />
                     <GridViewColumn Header="Prénom" DisplayMemberBinding="{Binding Prenom}" />
                     <GridViewColumn Header="Poste" DisplayMemberBinding="{Binding Poste}" />
-                    <GridViewColumn Header="Site" DisplayMemberBinding="{Binding Site}" />
-                    <GridViewColumn Header="Ville" DisplayMemberBinding="{Binding Ville}"/>
+                    <GridViewColumn Header="Site" DisplayMemberBinding="{Binding Site.Nom}" />
+                    <GridViewColumn Header="Ville" DisplayMemberBinding="{Binding Site.Ville}" />
                 </GridView>
             </ListView.View>
+
         </ListView> 
     </Grid> 
 </Window>

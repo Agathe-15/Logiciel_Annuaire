@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using AnnuaireWPF.Models;
 using Newtonsoft.Json;
 
 namespace AnnuaireWPF.Services
@@ -24,16 +25,39 @@ namespace AnnuaireWPF.Services
             return JsonConvert.DeserializeObject<T>(json);
         }
 
+
         // POST : Ajouter une nouvelle donnée
         public async Task<T> PostAsync<T>(string endpoint, T data)
         {
-            var json = JsonConvert.SerializeObject(data);
+            // Si l'objet est un Employe, remappons ses propriétés pour correspondre à l'API
+            object jsonData;
+            if (data is Employe employe)
+            {
+                jsonData = new
+                {
+                    nom = employe.Nom,
+                    prenom = employe.Prenom,
+                    poste = employe.Poste,
+                    telephone = employe.Telephone,
+                    email = employe.Email,
+                    site_id = employe.SiteId,
+                    date_embauche = employe.DateEmbauche
+                };
+            }
+            else
+            {
+                jsonData = data; // Pour les autres objets, utiliser directement
+            }
+
+            // Sérialisation et envoi des données
+            var json = JsonConvert.SerializeObject(jsonData);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync(endpoint, content);
             response.EnsureSuccessStatusCode();
             var result = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(result);
         }
+
 
         // PUT : Mettre à jour une donnée
         public async Task<T> PutAsync<T>(string endpoint, T data)
