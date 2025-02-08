@@ -1,13 +1,11 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using AnnuaireWPF.Models;
-using AnnuaireWPF.Views;
-using AnnuaireWPF.Services;
-using System.Windows.Input;
-using System.Text;
-using System.Security.Cryptography;
+﻿using AnnuaireWPF.Views;
+using Logiciel_Annuaire.src.Models;
+using Logiciel_Annuaire.src.Services;
+using System.Collections.ObjectModel;
 using System.Net.Http;
+using System.Windows;
+using System.Windows.Input;
+using Logiciel_Annuaire.src.Utils;
 
 
 namespace Logiciel_Annuaire
@@ -36,7 +34,7 @@ namespace Logiciel_Annuaire
 
         private async Task UpdateDatabaseCharsetAsync()
         {
-            using (HttpClient client = new HttpClient {  Timeout = TimeSpan.FromSeconds(10) })
+            using (HttpClient client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) })
             {
                 // URL de l'API 
                 client.BaseAddress = new Uri("http://localhost:3000/api/admin/");
@@ -47,7 +45,7 @@ namespace Logiciel_Annuaire
 
                     if (response.IsSuccessStatusCode)
                     {
-                        Console.WriteLine("La table Administrateur a été mise à jour pour utiliser utf8mb4.");
+                        Logger.Log("La table Administrateur a été mise à jour pour utiliser utf8mb4.");
                     }
                     else
                     {
@@ -108,13 +106,22 @@ namespace Logiciel_Annuaire
                 return;
             }
 
+            // Afficher la liste complète des employés avant le filtrage
+            Logger.Log("📌 Liste complète des employés avant filtrage :");
+            foreach (var emp in _employes)
+            {
+                Logger.Log($"EmployeId: {emp.EmployeId}, Nom: {emp.Nom}, Prénom: {emp.Prenom}, Département: {emp.DepartementId}, Site: {emp.Site?.Nom ?? "Aucun"}");
+            }
+
             // Filtrer les employés par plusieurs critères
             var results = _employes.Where(emp =>
                 emp.Nom.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||               // Rechercher par nom
                 emp.Prenom.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||            // Rechercher par prénom
-                (emp.Site?.Nom.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false) ||  // Rechercher par nom de site
-                (emp.Site?.Ville.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false) || // Rechercher par ville du site
-                emp.Poste.Contains(searchText, StringComparison.OrdinalIgnoreCase));              // Rechercher par poste
+                (emp.Site?.Nom?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false) ||  // Rechercher par nom de site
+                (emp.Site?.Ville?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false) || // Rechercher par ville du site
+                emp.DepartementId.ToString().Contains(searchText) // Rechercher par département (converti en string)
+            ).ToList();
+
 
             // Mettre à jour la liste filtrée
             _filteredEmployes.Clear();
@@ -127,6 +134,13 @@ namespace Logiciel_Annuaire
             if (!_filteredEmployes.Any())
             {
                 MessageBox.Show("Aucun résultat trouvé pour votre recherche.", "Recherche");
+            }
+
+            // Afficher les résultats après le filtrage
+            Logger.Log($"🔍 Résultats après filtrage pour '{searchText}' :");
+            foreach (var emp in results)
+            {
+                Logger.Log($"✅ Match: EmployeId: {emp.EmployeId}, Nom: {emp.Nom}, Site: {emp.Site?.Nom ?? "Aucun"}");
             }
         }
 
@@ -177,7 +191,7 @@ namespace Logiciel_Annuaire
             AdminWindow adminWindow = new AdminWindow();
             adminWindow.ShowDialog();
         }
-        
+
 
     }
 }

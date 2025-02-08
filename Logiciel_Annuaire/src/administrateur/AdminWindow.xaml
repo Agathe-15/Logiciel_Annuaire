@@ -22,7 +22,7 @@
 				<GridView>
 					<GridViewColumn Header="Nom" DisplayMemberBinding="{Binding Nom}" Width="120" />
 					<GridViewColumn Header="Prénom" DisplayMemberBinding="{Binding Prenom}" Width="120" />
-					<GridViewColumn Header="Poste" DisplayMemberBinding="{Binding Poste}" Width="120" />
+                    <GridViewColumn Header="Département" DisplayMemberBinding="{Binding DepartementNom}" Width="120" />
 					<GridViewColumn Header="Téléphone" DisplayMemberBinding="{Binding Telephone}" Width="120" />
 					<GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="180" />
 					<GridViewColumn Header="Site" DisplayMemberBinding="{Binding Site}" Width="120" />
@@ -32,10 +32,12 @@
 		</ListView>
 
 		<!-- Boutons CRUD -->
-		<StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right">
-			<Button Content="Ajouter" Width="100" Margin="5" Click="OnAddClick" />
-			<Button Content="Modifier" Width="100" Margin="5" Click="OnEditClick" />
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right">
+            <Button Content="Ajouter" Width="100" Margin="5" Click="OnTestClick"/>
+            <Button Content="Modifier" Width="100" Margin="5" Click="OnEditClick" />
 			<Button Content="Supprimer" Width="100" Margin="5" Click="OnDeleteClick" />
-		</StackPanel>
+            
+
+        </StackPanel>
 	</Grid>
 </Window>

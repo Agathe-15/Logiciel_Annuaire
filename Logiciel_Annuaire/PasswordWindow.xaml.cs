@@ -1,9 +1,8 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using Logiciel_Annuaire.src.Utils;
 
 namespace Logiciel_Annuaire
 {
@@ -29,6 +28,7 @@ namespace Logiciel_Annuaire
                 {
                     IsPasswordValid = true;
                     this.DialogResult = true; // Fermer la fenêtre avec succès
+                    Logger.Log("✔️ Fenêtre de mot de passe fermée avec succès !");
                 }
                 else
                 {
@@ -55,7 +55,7 @@ namespace Logiciel_Annuaire
                     if (response.IsSuccessStatusCode)
                     {
                         string result = await response.Content.ReadAsStringAsync();
-                        Console.WriteLine($"Mot de passe récupéré depuis l'API : '{result}'"); // Log ici
+                        Logger.Log($"Mot de passe récupéré depuis l'API : '{result}'"); // Log ici
                         return result.Trim(); // Trim pour enlever espaces ou retours à la ligne
                     }
                     else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -80,8 +80,8 @@ namespace Logiciel_Annuaire
         private bool VerifyPassword(string inputPassword, string storedHashedPassword)
         {
             string hashedInput = ComputeHash(inputPassword); // Hacher le mot de passe saisi
-            Console.WriteLine($"Hachage saisi : '{hashedInput}'");
-            Console.WriteLine($"Hachage stocké : '{storedHashedPassword}'");
+            Logger.Log($"Hachage saisi : '{hashedInput}'");
+            Logger.Log($"Hachage stocké : '{storedHashedPassword}'");
 
             return hashedInput == storedHashedPassword; // Comparer les deux hachages
         }

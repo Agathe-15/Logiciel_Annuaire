@@ -1,10 +1,9 @@
-﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+﻿using Logiciel_Annuaire.src.Models;
+using Logiciel_Annuaire.src.Services;
+using System.Collections.ObjectModel;
 using System.Windows;
-using AnnuaireWPF.Models;
-using AnnuaireWPF.Services;
 
-namespace AnnuaireWPF.ViewModels
+namespace Logiciel_Annuaire.src.ViewModels
 {
     public class EmployeViewModel
     {
@@ -29,7 +28,7 @@ namespace AnnuaireWPF.ViewModels
         }
         public void CloseWindow(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void Close()

@@ -1,0 +1,55 @@
+﻿<Window x:Class="Logiciel_Annuaire.src.Views.TestEmptyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Logiciel_Annuaire.src.Views"
+        mc:Ignorable="d"
+       Title="Modifier Employé" Height="550" Width="400">
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Nom :" Grid.Row="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="NomTextBox" Grid.Row="0" Margin="100,0,0,5" Width="250"/>
+
+        <TextBlock Text="Prénom :" Grid.Row="1" VerticalAlignment="Center"/>
+        <TextBox x:Name="PrenomTextBox" Grid.Row="1" Margin="100,0,0,5" Width="250"/>
+
+        <TextBlock Text="Téléphone :" Grid.Row="2" VerticalAlignment="Center"/>
+        <TextBox x:Name="TelephoneTextBox" Grid.Row="2" Margin="100,0,0,5" Width="250"/>
+
+        <TextBlock Text="Email :" Grid.Row="3" VerticalAlignment="Center"/>
+        <TextBox x:Name="EmailTextBox" Grid.Row="3" Margin="100,0,0,5" Width="250"/>
+
+        <TextBlock Text="Date d'embauche :" Grid.Row="4" VerticalAlignment="Center"/>
+        <DatePicker x:Name="DateEmbauchePicker" Grid.Row="4" Margin="100,0,0,5" Width="250"/>
+
+        <!-- ComboBox pour Site -->
+        <TextBlock Text="Site :" Grid.Row="5" VerticalAlignment="Center"/>
+        <ComboBox x:Name="SiteComboBox" Grid.Row="5" Margin="100,0,0,5" Width="250"
+                  DisplayMemberPath="Nom" SelectedValuePath="SiteId"/>
+
+        <!-- ComboBox pour Département -->
+        <TextBlock Text="Département :" Grid.Row="6" VerticalAlignment="Center"/>
+        <ComboBox x:Name="DepartementComboBox" Grid.Row="6" Margin="100,0,0,5" Width="250"
+                  DisplayMemberPath="Nom" SelectedValuePath="DepartementId"/>
+
+        <!-- Boutons -->
+        <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Enregistrer" Click="OnSaveClick" Width="100" Margin="0,10,10,0"/>
+            <Button Content="Annuler" Click="OnCancelClick" Width="100" Margin="0,10,0,0"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

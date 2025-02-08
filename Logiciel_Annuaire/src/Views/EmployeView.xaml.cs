@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using Logiciel_Annuaire.src.Models;
+using System.Collections.ObjectModel;
 using System.Windows;
-using AnnuaireWPF.Models;
 
 namespace AnnuaireWPF.Views
 {
