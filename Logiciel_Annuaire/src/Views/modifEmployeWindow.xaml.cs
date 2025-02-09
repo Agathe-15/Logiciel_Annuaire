@@ -14,7 +14,7 @@ namespace Logiciel_Annuaire.src.Views
 
         public modifEmployeWindow(Employe employeToEdit)
         {
-            InitializeComponent(); // ❌ Si cette ligne plante, ton XAML est mal lié !
+            InitializeComponent(); // Si cette ligne plante, ton XAML est mal lié !
             _apiService = new ApiService();
             _ = LoadSitesAsync();
             _ = LoadDepartementsAsync();
@@ -27,7 +27,7 @@ namespace Logiciel_Annuaire.src.Views
             {
                 Logger.Log($"📌 Mode modification pour {UpdatedEmploye.Nom} {UpdatedEmploye.Prenom} (ID={UpdatedEmploye.EmployeId})");
 
-                // ✅ Remplissage des champs avec les données de l'employé
+                //  Remplissage des champs avec les données de l'employé
                 NomTextBox.Text = UpdatedEmploye.Nom;
                 PrenomTextBox.Text = UpdatedEmploye.Prenom;
                 TelephoneTextBox.Text = UpdatedEmploye.Telephone;

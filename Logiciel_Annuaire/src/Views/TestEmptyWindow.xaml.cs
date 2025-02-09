@@ -13,8 +13,9 @@ namespace Logiciel_Annuaire.src.Views
     {
         private readonly ApiService _apiService;
         private Employe UpdatedEmploye;  // ✅ Ajout ici, variable globale pour modification
+        private Site selectedSite;
 
-        // 🔥 Constructeur pour modification OU ajout
+        // Constructeur pour modification OU ajout
         public TestEmptyWindow(Employe employeToEdit = null)
         {
             Logger.Log("📌 Début de l'initialisation de TestEmptyWindow...");
@@ -59,10 +60,14 @@ namespace Logiciel_Annuaire.src.Views
             }
         }
 
+        public TestEmptyWindow(Site selectedSite)
+        {
+            this.selectedSite = selectedSite;
+        }
 
 
-        // 🔥 Sauvegarde des modifications
-        // 🔥 Vérification des valeurs sélectionnées
+
+        // Sauvegarde des modifications
         private async void OnSaveClick(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(NomTextBox.Text) ||
@@ -97,7 +102,7 @@ namespace Logiciel_Annuaire.src.Views
                 return;
             }
 
-            // 🔥 Création de l'objet employé
+            // Création de l'objet employé
             var employeData = new
             {
                 employe_id = UpdatedEmploye != null && UpdatedEmploye.EmployeId > 0 ? UpdatedEmploye.EmployeId : 0,
@@ -136,7 +141,7 @@ namespace Logiciel_Annuaire.src.Views
                 MessageBox.Show($"❌ Erreur API : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        // 🔥 Chargement des sites
+        // Chargement des sites
         private async Task LoadSitesAsync()
         {
             try
@@ -166,7 +171,7 @@ namespace Logiciel_Annuaire.src.Views
         }
 
 
-        // 🔥 Chargement des départements
+        // Chargement des départements
         private async Task LoadDepartementsAsync()
         {
             try
@@ -195,7 +200,7 @@ namespace Logiciel_Annuaire.src.Views
             }
         }
 
-       //  🔥 Annuler la modification
+       //  Annuler la modification
         private void OnCancelClick(object sender, RoutedEventArgs e)
         {
             Logger.Log("❌ Modification annulée par l'utilisateur.");

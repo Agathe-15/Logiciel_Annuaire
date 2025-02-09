@@ -172,5 +172,19 @@ namespace Logiciel_Annuaire
                 MessageBox.Show("❌ Aucun employé sélectionné pour la suppression.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+        private void OnManageSitesClick(object sender, RoutedEventArgs e)
+        {
+            Logger.Log("📌 Ouverture de la fenêtre de gestion des sites.");
+            var sitesWindow = new SitesWindow();
+            sitesWindow.ShowDialog();
+            Logger.Log("✅ Fenêtre SitesWindow fermée.");
+        }
+        private void OnManageDepartementsClick(object sender, RoutedEventArgs e)
+        {
+            Logger.Log("📌 Ouverture de la gestion des départements.");
+            var departementsWindow = new DepartementsWindow();
+            departementsWindow.ShowDialog();
+        }
+
     }
 }

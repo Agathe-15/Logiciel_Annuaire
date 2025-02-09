@@ -36,8 +36,8 @@
             <Button Content="Ajouter" Width="100" Margin="5" Click="OnTestClick"/>
             <Button Content="Modifier" Width="100" Margin="5" Click="OnEditClick" />
 			<Button Content="Supprimer" Width="100" Margin="5" Click="OnDeleteClick" />
-            
-
+            <Button Content="Gérer les Sites" Width="100" Margin="5" Click="OnManageSitesClick"/>
+            <Button Content="Gérer les Départements" Click="OnManageDepartementsClick" />
         </StackPanel>
 	</Grid>
 </Window>

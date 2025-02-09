@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Logiciel_Annuaire.src.Views"
         mc:Ignorable="d"
-        Title="modifEmployeWindow" Height="450" Width="800">
+        Title="modifEmployeWindow" Height="350" Width="400">
     <Grid>
         <StackPanel Margin="20">
             <TextBlock Text="Nom :" />
