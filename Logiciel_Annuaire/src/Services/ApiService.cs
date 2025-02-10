@@ -18,6 +18,8 @@ namespace Logiciel_Annuaire.src.Services
             _httpClient.BaseAddress = new Uri("http://localhost:3000/api/"); // URL de votre API
         }
 
+       
+
         // GET : Récupérer toutes les données
         public async Task<T> GetAsync<T>(string endpoint)
         {
@@ -78,8 +80,8 @@ namespace Logiciel_Annuaire.src.Services
         // POST : Ajouter une nouvelle donnée
         public async Task<T> PostAsync<T>(string endpoint, T data)
         {
-            // Si l'objet est un Employe, remappons ses propriétés pour correspondre à l'API
             object jsonData;
+
             if (data is Employe employe)
             {
                 jsonData = new
@@ -95,10 +97,11 @@ namespace Logiciel_Annuaire.src.Services
             }
             else
             {
-                jsonData = data; // Pour les autres objets, utiliser directement
+                // ✅ Correction : Si `data` est null, on envoie `{}` au lieu de `null`
+                jsonData = data != null ? data : new { };
             }
 
-            var json = JsonConvert.SerializeObject(data);
+            var json = JsonConvert.SerializeObject(jsonData);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             Logger.Log("🔍 JSON envoyé au backend: " + json); // ✅ Debug
@@ -115,6 +118,60 @@ namespace Logiciel_Annuaire.src.Services
             var result = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(result);
         }
+
+
+
+        // Verification le statut du verrou
+        public async Task<bool> IsAdminLockedAsync()
+        {
+            try
+            {
+                var response = await GetAsync<dynamic>("admin/lock-status");
+
+                Logger.Log($"🔍 Réponse API (admin/lock-status) : {JsonConvert.SerializeObject(response)}");
+
+                if (response != null && response.locked != null)
+                {
+                    return response.locked;
+                }
+
+                Logger.Log("⚠️ Réponse inattendue de l'API pour lock-status.");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"❌ Erreur lors de la récupération du verrou admin : {ex.Message}");
+                return false; // Ne pas bloquer l'application si l'API est inaccessible
+            }
+        }
+
+
+        // Requete de vérouillage 
+        public async Task<bool> LockDatabaseAsync()
+        {
+            try
+            {
+                var jsonBody = new { action = "lock" }; // 🔥 Envoyer un JSON valide
+                var response = await PostAsync("admin/lock", jsonBody);
+
+                if (response != null)
+                {
+                    Logger.Log("🔒 Base verrouillée avec succès.");
+                    return true;
+                }
+                else
+                {
+                    Logger.Log("❌ Impossible de verrouiller la base.");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"❌ Erreur lors du verrouillage de la base : {ex.Message}");
+                return false;
+            }
+        }
+
 
 
         // PUT : Mettre à jour une donnée

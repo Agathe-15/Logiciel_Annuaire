@@ -106,45 +106,58 @@ namespace Logiciel_Annuaire
 
         private void OnSearchButtonClick(object sender, RoutedEventArgs e)
         {
-            string searchText = SearchBox.Text.ToLower();
+            // Récupérer le texte saisi dans le champ de recherche
+            string searchText = SearchBox.Text.ToLower().Trim();
 
+            // 🔥 Si la recherche est vide, réinitialiser la liste complète
             if (string.IsNullOrWhiteSpace(searchText))
             {
-                MessageBox.Show("Veuillez entrer un texte pour la recherche.", "Recherche");
+                _filteredEmployes.Clear();
+                foreach (var emp in _employes)
+                {
+                    _filteredEmployes.Add(emp);
+                }
+                Logger.Log("🔄 Liste des employés réinitialisée car la recherche est vide.");
                 return;
             }
 
+            // Afficher la liste complète des employés avant le filtrage
             Logger.Log("📌 Liste complète des employés avant filtrage :");
             foreach (var emp in _employes)
             {
-                Logger.Log($"EmployeId: {emp.EmployeId}, Nom: {emp.Nom}, Prénom: {emp.Prenom}, Département: {emp.DepartementId}, Site: {emp.Site?.Nom ?? "Aucun"}");
+                Logger.Log($"EmployeId: {emp.EmployeId}, Nom: {emp.Nom}, Prénom: {emp.Prenom}, Département: {emp.EmployeDepartement?.Nom ?? "Aucun"}, Site: {emp.Site?.Nom ?? "Aucun"}");
             }
 
+            // 🔥 Correction : Ajouter la recherche par nom de département
             var results = _employes.Where(emp =>
-                emp.Nom.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
-                emp.Prenom.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
-                (emp.Site?.Nom?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false) ||
-                (emp.Site?.Ville?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false) ||
-                emp.DepartementId.ToString().Contains(searchText)
+                emp.Nom.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||               // Rechercher par nom
+                emp.Prenom.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||            // Rechercher par prénom
+                (emp.Site?.Nom?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false) ||  // Rechercher par site
+                (emp.Site?.Ville?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false) || // Rechercher par ville
+                (emp.EmployeDepartement?.Nom?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false) // 🔥 Rechercher par département
             ).ToList();
 
+            // Mettre à jour la liste filtrée
             _filteredEmployes.Clear();
             foreach (var emp in results)
             {
                 _filteredEmployes.Add(emp);
             }
 
+            // Afficher un message si aucun résultat n'est trouvé
             if (!_filteredEmployes.Any())
             {
                 MessageBox.Show("Aucun résultat trouvé pour votre recherche.", "Recherche");
             }
 
+            // Afficher les résultats après le filtrage
             Logger.Log($"🔍 Résultats après filtrage pour '{searchText}' :");
             foreach (var emp in results)
             {
-                Logger.Log($"✅ Match: EmployeId: {emp.EmployeId}, Nom: {emp.Nom}, Site: {emp.Site?.Nom ?? "Aucun"}");
+                Logger.Log($"✅ Match: EmployeId: {emp.EmployeId}, Nom: {emp.Nom}, Département: {emp.EmployeDepartement?.Nom ?? "Aucun"}, Site: {emp.Site?.Nom ?? "Aucun"}");
             }
         }
+
 
         private void OnEmployeDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
