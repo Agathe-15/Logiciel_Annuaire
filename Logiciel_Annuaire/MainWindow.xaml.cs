@@ -77,19 +77,25 @@ namespace Logiciel_Annuaire
             {
                 Logger.Log("🔄 Rafraîchissement des employés en cours...");
 
+                // 🔍 Récupérer les employés et les sites
                 var employes = await _apiService.GetAsync<ObservableCollection<Employe>>("employes");
                 var sites = await _apiService.GetAsync<ObservableCollection<Site>>("sites");
+
+                if (employes == null || sites == null)
+                {
+                    Logger.Log("⚠️ Aucun employé ou site récupéré depuis l'API !");
+                    return;
+                }
 
                 _employes.Clear();
                 _filteredEmployes.Clear();
 
                 foreach (var employe in employes)
                 {
-                    var site = sites.FirstOrDefault(s => s.SiteId == employe.SiteId);
-                    if (site != null)
-                    {
-                        employe.Site = site;
-                    }
+                    // 🔗 Associer l'employé à son site
+                    employe.Site = sites.FirstOrDefault(s => s.SiteId == employe.SiteId);
+
+                    Logger.Log($"📌 Employé chargé -> ID: {employe.EmployeId}, Nom: {employe.Nom}, Site: {employe.Site?.Nom ?? "Aucun"}");
 
                     _employes.Add(employe);
                     _filteredEmployes.Add(employe);
@@ -103,6 +109,7 @@ namespace Logiciel_Annuaire
                 MessageBox.Show($"Erreur lors du chargement des employés : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         private void OnSearchButtonClick(object sender, RoutedEventArgs e)
         {

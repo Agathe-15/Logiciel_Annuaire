@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Logiciel_Annuaire.src.Views.SitesWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Gestion des Sites" Height="500" Width="600"
+        Title="Gestion des Sites" Height="350" Width="600"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel Margin="20">

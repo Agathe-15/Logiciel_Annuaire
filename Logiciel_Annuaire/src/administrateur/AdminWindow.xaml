@@ -24,10 +24,8 @@
 					<GridViewColumn Header="Prénom" DisplayMemberBinding="{Binding Prenom}" Width="120" />
                     <GridViewColumn Header="Département" DisplayMemberBinding="{Binding DepartementNom}" Width="120" />
 					<GridViewColumn Header="Téléphone" DisplayMemberBinding="{Binding Telephone}" Width="120" />
-					<GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="180" />
-					<GridViewColumn Header="Site" DisplayMemberBinding="{Binding Site}" Width="120" />
-					<GridViewColumn Header="Date d'embauche" DisplayMemberBinding="{Binding DateEmbauche}" Width="150" />
-				</GridView>
+                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="180" />
+                </GridView>
 			</ListView.View>
 		</ListView>
 
@@ -37,7 +35,7 @@
             <Button Content="Modifier" Width="100" Margin="5" Click="OnEditClick" />
 			<Button Content="Supprimer" Width="100" Margin="5" Click="OnDeleteClick" />
             <Button Content="Gérer les Sites" Width="100" Margin="5" Click="OnManageSitesClick"/>
-            <Button Content="Gérer les Départements" Click="OnManageDepartementsClick" />
+            <Button Content="Gérer les Départements" Width="100" Margin="5" Click="OnManageDepartementsClick" />
         </StackPanel>
 	</Grid>
 </Window>
